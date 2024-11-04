@@ -80,7 +80,7 @@ int main(void)
     }
 
     // Create a TCP socket
-    server_socket = socket(AF_INET, SOCK_STREAM, 0);
+    server_socket = socket(AF_INET, SOCK_STREAM|SOCK_CLOEXEC, 0);
     if(server_socket == -1)
     {
         perror("Error creating socket");
