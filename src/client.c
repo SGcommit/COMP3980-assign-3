@@ -51,11 +51,19 @@ int main(int argc, char *argv[])
     strncpy(request.conversionType, conversionType, sizeof(request.conversionType) - 1);
 
     // Create a TCP socket
-    client_socket = socket(AF_INET, SOCK_STREAM | SOCK_CLOEXEC, 0);
-    if(client_socket == -1)
+    client_socket = socket(AF_INET, SOCK_STREAM, 0);
+    if (client_socket == -1)
     {
         perror("Error creating socket");
-        exit(EXIT_FAILURE);
+        return EXIT_FAILURE;
+    }
+
+    // Set FD_CLOEXEC manually
+    if (fcntl(client_socket, F_SETFD, FD_CLOEXEC) == -1)
+    {
+        perror("Error setting close-on-exec flag");
+        close(client_socket);
+        return EXIT_FAILURE;
     }
 
     // Configure server address
