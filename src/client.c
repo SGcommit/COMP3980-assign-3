@@ -50,19 +50,26 @@ int main(int argc, char *argv[])
     strncpy(request.string, inputString, sizeof(request.string) - 1);
     strncpy(request.conversionType, conversionType, sizeof(request.conversionType) - 1);
 
-    // Create a TCP socket
+
+    #ifdef SOCK_CLOEXEC
+    client_socket = socket(AF_INET, SOCK_STREAM | SOCK_CLOEXEC, 0);
+    #else
     client_socket = socket(AF_INET, SOCK_STREAM, 0);
+    if (client_socket != -1)
+    {
+        // Set FD_CLOEXEC manually if SOCK_CLOEXEC is not available
+        if (fcntl(client_socket, F_SETFD, FD_CLOEXEC) == -1)
+        {
+            perror("Error setting close-on-exec flag");
+            close(client_socket);
+            return EXIT_FAILURE;
+        }
+    }
+    #endif
+
     if (client_socket == -1)
     {
         perror("Error creating socket");
-        return EXIT_FAILURE;
-    }
-
-    // Set FD_CLOEXEC manually
-    if (fcntl(client_socket, F_SETFD, FD_CLOEXEC) == -1)
-    {
-        perror("Error setting close-on-exec flag");
-        close(client_socket);
         return EXIT_FAILURE;
     }
 

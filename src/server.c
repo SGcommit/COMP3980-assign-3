@@ -79,20 +79,29 @@ int main(void)
     }
 
 
+#ifdef SOCK_CLOEXEC
+server_socket = socket(AF_INET, SOCK_STREAM | SOCK_CLOEXEC, 0);
+#else
 server_socket = socket(AF_INET, SOCK_STREAM, 0);
+if (server_socket != -1)
+{
+    // Set FD_CLOEXEC manually if SOCK_CLOEXEC is not available
+    if (fcntl(server_socket, F_SETFD, FD_CLOEXEC) == -1)
+    {
+        perror("Error setting close-on-exec flag");
+        close(server_socket);
+        return EXIT_FAILURE;
+    }
+}
+#endif
+
 if (server_socket == -1)
 {
     perror("Error creating socket");
     return EXIT_FAILURE;
 }
 
-// Set FD_CLOEXEC manually
-if (fcntl(server_socket, F_SETFD, FD_CLOEXEC) == -1)
-{
-    perror("Error setting close-on-exec flag");
-    close(server_socket);
-    return EXIT_FAILURE;
-}
+
 
     // Configure server address
     server_addr.sin_family      = AF_INET;
