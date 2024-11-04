@@ -11,6 +11,10 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <arpa/inet.h>      // For inet_ntoa and htons
+#include <netinet/in.h>     // For sockaddr_in and INADDR_ANY
+#include <sys/socket.h>     // For socket functions
+
 
 // Constants for magic numbers
 #define STRING_SIZE 256

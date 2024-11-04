@@ -1,6 +1,5 @@
 #include "../include/server.h"
-#include <arpa/inet.h>
-#include <sys/socket.h>
+
 
 static volatile sig_atomic_t exit_flag = 0;    // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
