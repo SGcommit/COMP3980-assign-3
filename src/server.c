@@ -1,6 +1,5 @@
 #include "../include/server.h"
 
-
 static volatile sig_atomic_t exit_flag = 0;    // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
 // Signal handler to terminate the server
@@ -79,13 +78,20 @@ int main(void)
         return EXIT_FAILURE;
     }
 
-    // Create a TCP socket
-    server_socket = socket(AF_INET, SOCK_STREAM|SOCK_CLOEXEC, 0);
-    if(server_socket == -1)
-    {
-        perror("Error creating socket");
-        return EXIT_FAILURE;
-    }
+server_socket = socket(AF_INET, SOCK_STREAM, 0);
+if (server_socket == -1)
+{
+    perror("Error creating socket");
+    return EXIT_FAILURE;
+}
+
+// Manually set FD_CLOEXEC if SOCK_CLOEXEC is unavailable
+if (fcntl(server_socket, F_SETFD, FD_CLOEXEC) == -1)
+{
+    perror("Error setting close-on-exec flag");
+    close(server_socket);
+    return EXIT_FAILURE;
+}
 
     // Configure server address
     server_addr.sin_family      = AF_INET;

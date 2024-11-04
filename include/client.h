@@ -1,19 +1,17 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
+#include <arpa/inet.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <netinet/in.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdnoreturn.h>
 #include <string.h>
+#include <sys/socket.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <sys/socket.h>
-
-
 
 #define STRING_SIZE 256
 #define CONVERSION_TYPE_SIZE 10

@@ -1,20 +1,19 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include <ctype.h>    // For toupper and tolower
+#include <arpa/inet.h>    // For inet_ntoa and htons
+#include <ctype.h>        // For toupper and tolower
 #include <errno.h>
 #include <fcntl.h>
-#include <signal.h>    // For signal and SIGINT
+#include <netinet/in.h>    // For sockaddr_in and INADDR_ANY
+#include <signal.h>        // For signal and SIGINT
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdnoreturn.h>
 #include <string.h>
+#include <sys/socket.h>    // For socket functions
 #include <sys/stat.h>
 #include <unistd.h>
-#include <arpa/inet.h>      // For inet_ntoa and htons
-#include <netinet/in.h>     // For sockaddr_in and INADDR_ANY
-#include <sys/socket.h>     // For socket functions
-
 
 // Constants for magic numbers
 #define STRING_SIZE 256

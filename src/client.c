@@ -10,14 +10,14 @@ void print_usage(const char *prog_name)
 
 int main(int argc, char *argv[])
 {
-    int                    opt;
-    const char            *inputString    = NULL;
-    const char            *conversionType = NULL;
-    int                    client_socket;
-    struct sockaddr_in     server_addr;
-    ClientRequest          request;
-    char                   processed_string[STRING_SIZE];
-    ssize_t                bytes_read;
+    int                opt;
+    const char        *inputString    = NULL;
+    const char        *conversionType = NULL;
+    int                client_socket;
+    struct sockaddr_in server_addr;
+    ClientRequest      request;
+    char               processed_string[STRING_SIZE];
+    ssize_t            bytes_read;
 
     // Parse command-line arguments
     while((opt = getopt(argc, argv, "s:t:")) != -1)
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
     strncpy(request.conversionType, conversionType, sizeof(request.conversionType) - 1);
 
     // Create a TCP socket
-    client_socket = socket(AF_INET, SOCK_STREAM|SOCK_CLOEXEC, 0);
+    client_socket = socket(AF_INET, SOCK_STREAM | SOCK_CLOEXEC, 0);
     if(client_socket == -1)
     {
         perror("Error creating socket");
